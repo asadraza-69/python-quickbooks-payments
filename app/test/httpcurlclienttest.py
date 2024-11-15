@@ -1,8 +1,8 @@
 import unittest
-from app.quickbookspayments.oauth.oauth2authenticator import OAuth2Authenticator
-from app.quickbookspayments.httpclients.request.requestfactory import RequestFactory
-from app.quickbookspayments.httpclients.request.intuitrequest import IntuitRequest
+
 from app.quickbookspayments.httpclients.core.httpcurlclient import HttpCurlClient
+from app.quickbookspayments.oauth.oauth2authenticator import OAuth2Authenticator
+
 
 class HttpCurlClientTest(unittest.TestCase):
 
@@ -62,7 +62,8 @@ class HttpCurlClientTest(unittest.TestCase):
         oauth1_access_token = "qyprd5jgTqKPpZvNUM5OOLDEoPthaUnYRkDGP5o8Z4vmbUx5"
         oauth1_token_secret = "kFKirS5qfbj1j5naG2eRiHMROwsAS1AhW4aNweI1"
         scopes = "com.intuit.quickbooks.accounting"
-        request = oauth2_helper.create_request_to_migrate_token(consumer_key, consumer_secret, oauth1_access_token, oauth1_token_secret, scopes)
+        request = oauth2_helper.create_request_to_migrate_token(consumer_key, consumer_secret, oauth1_access_token,
+                                                                oauth1_token_secret, scopes)
         self.enable_debug_for_curl(request, True)
 
     def test_do_not_verify_ssl(self):
@@ -70,6 +71,7 @@ class HttpCurlClientTest(unittest.TestCase):
         code = "L011557358660z3axu8cgM7YHVyRGAaU63Ap0hgtEzfdkgwu5d"
         request = oauth2_helper.create_request_to_exchange(code)
         self.enable_debug_for_curl(request, False)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,8 @@
 import unittest
 from random import randint
+
 from app.quickbookspayments.operations.chargeoperations import ChargeOperations
-from app.quickbookspayments.paymentclient import PaymentClient
+from app.test.testclientcreator import TestClientCreator
 
 
 class ChargeTest(unittest.TestCase):
@@ -157,6 +158,7 @@ class ChargeTest(unittest.TestCase):
         void_body_response = void_response.get_body()
         self.assertEqual(void_body_response.status, 'ISSUED')
         self.assertEqual(void_body_response.type, "VOID")
+
 
 if __name__ == '__main__':
     unittest.main()

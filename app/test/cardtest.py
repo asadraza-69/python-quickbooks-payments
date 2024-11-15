@@ -1,7 +1,9 @@
 import unittest
 from random import randint
+
 from app.quickbookspayments.operations.cardoperations import CardOperations
-from app.quickbookspayments.paymentclient import PaymentClient
+from app.test.testclientcreator import TestClientCreator
+
 
 class CardTest(unittest.TestCase):
 
@@ -110,6 +112,7 @@ class CardTest(unittest.TestCase):
         response = client.create_card_from_token(customer_id, value)
         self.assertEqual(card.expMonth, response.get_body().expMonth)
         self.assertEqual(card.name, response.get_body().name)
+
 
 if __name__ == '__main__':
     unittest.main()

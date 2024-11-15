@@ -1,7 +1,9 @@
 import unittest
 from random import randint
+
 from app.quickbookspayments.operations.echeckoperations import ECheckOperations
-from app.quickbookspayments.paymentclient import PaymentClient
+from app.test.testclientcreator import TestClientCreator
+
 
 class ECheckTest(unittest.TestCase):
 
@@ -60,6 +62,7 @@ class ECheckTest(unittest.TestCase):
         })
         response = client.void_or_refund_echeck(body, echeck_id)
         self.assertEqual(response.get_body().amount, echeck_body.amount)
+
 
 if __name__ == '__main__':
     unittest.main()

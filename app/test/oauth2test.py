@@ -1,7 +1,8 @@
 import unittest
+import json
 
 from app.quickbookspayments.httpclients.request.requestinterface import RequestInterface
-from app.quickbookspayments.oauth.discoverysandboxurls import DiscoverySandboxURLs, OAuth1Encrypter
+from app.quickbookspayments.oauth.discoverysandboxurls import DiscoverySandboxURLs
 from app.quickbookspayments.oauth.oauth1encrypter import OAuth1Encrypter
 from app.quickbookspayments.oauth.oauth2authenticator import OAuth2Authenticator
 
@@ -10,8 +11,8 @@ class OAuth2Test(unittest.TestCase):
     # Private method to create an OAuth2Authenticator client
     def create_client(self) -> 'OAuth2Authenticator':
         oauth2_helper = OAuth2Authenticator.create({
-            'client_id': 'L0vmMZIfwUBfv9PPM96dzMTYATnLs6TSAe5SyVkt1Z4MAsvlCU',
-            'client_secret': '2ZZnCnnDyoZxUlVCP1D9X7khxA3zuXMyJE4cHXdq',
+            'client_id': 'ABv5rkSV3iPCNQWrge5vQThCPY2QXLNR035dep5vfFfS9lVmQV',
+            'client_secret': 'D9rTK64BsGi3fsQ8J5cuF4gmwIXG36u92hCTCLJT',
             'redirect_uri': 'https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl',
             'environment': 'development'
         })
@@ -21,11 +22,11 @@ class OAuth2Test(unittest.TestCase):
     def test_can_create_an_oauth2_helper_with_values(self) -> None:
         oauth2_helper = self.create_client()
         self.assertEqual(
-            'L0vmMZIfwUBfv9PPM96dzMTYATnLs6TSAe5SyVkt1Z4MAsvlCU',
+            'ABv5rkSV3iPCNQWrge5vQThCPY2QXLNR035dep5vfFfS9lVmQV',
             oauth2_helper.get_client_id()
         )
         self.assertEqual(
-            '2ZZnCnnDyoZxUlVCP1D9X7khxA3zuXMyJE4cHXdq',
+            'D9rTK64BsGi3fsQ8J5cuF4gmwIXG36u92hCTCLJT',
             oauth2_helper.get_client_secret()
         )
         self.assertEqual(
@@ -79,7 +80,7 @@ class OAuth2Test(unittest.TestCase):
 
         authorization_code_url = oauth2_helper.generate_auth_code_url(scope, state)
         expected_url = (
-                "https://appcenter.intuit.com/connect/oauth2?client_id=L0vmMZIfwUBfv9PPM96dzMTYATnLs6TSAe5SyVkt1Z4MAsvlCU"
+                "https://appcenter.intuit.com/connect/oauth2?client_id=ABv5rkSV3iPCNQWrge5vQThCPY2QXLNR035dep5vfFfS9lVmQV"
                 "&scope=com.intuit.quickbooks.accounting%20openid%20profile%20email%20phone%20address"
                 "&redirect_uri=https%3A%2F%2Fdeveloper.intuit.com%2Fv2%2FOAuth2Playground%2FRedirectUrl"
                 "&response_type=code&state=" + state
@@ -180,7 +181,7 @@ class OAuth2Test(unittest.TestCase):
         oauth1_token_secret = "kFKirS5qfbj1j5naG2eRiHMROwsAS1AhW4aNweI1"
         scopes = "com.intuit.quickbooks.accounting"
         encrypter = OAuth1Encrypter(consumer_key, consumer_secret, oauth1_access_token, oauth1_token_secret)
-        encrypter.set_nounce_for_test("NjM2OTI4NDM3NDQzNjQyNDUw")
+        encrypter.set_nonce_for_test("NjM2OTI4NDM3NDQzNjQyNDUw")
         encrypter.set_time_for_test("1557272144")
 
         authorization_header_info = encrypter.get_oauth_header(

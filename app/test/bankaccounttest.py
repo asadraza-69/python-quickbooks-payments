@@ -1,6 +1,8 @@
 import unittest
 from random import randint
+
 from app.quickbookspayments.operations.bankaccountoperations import BankAccountOperations
+from app.test.testclientcreator import TestClientCreator
 
 
 class BankAccountTest(unittest.TestCase):
@@ -76,6 +78,7 @@ class BankAccountTest(unittest.TestCase):
         response_bank_id = response.get_body().id
         response = client.get_bank_account(client_id, response_bank_id)
         self.assertEqual(response_bank_id, response.get_body().id)
+
 
 if __name__ == '__main__':
     unittest.main()

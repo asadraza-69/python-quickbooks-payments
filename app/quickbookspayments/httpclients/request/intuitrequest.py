@@ -1,65 +1,120 @@
 from app.quickbookspayments.httpclients.request.requestinterface import RequestInterface
+
 class IntuitRequest(RequestInterface):
     def __init__(self, type):
-        self.method = None
-        self.url = None
-        self.header = None
-        self.body = None
-        self.requestType = None
-        self.requestId = None
-        self.setRequestType(type)
+        self._method = None
+        self._url = None
+        self._header = None
+        self._body = None
+        self._request_type = None
+        self._request_id = None
+        self.set_request_type(type)
 
-    def setMethod(self, method):
+    @property
+    def method(self):
+        return self._method
+
+    @method.setter
+    def method(self, method):
+        self._method = method
+
+    def set_method(self, method):  # Converted to PEP8
         self.method = method
         return self
 
-    def getMethod(self):
+    def get_method(self):  # Converted to PEP8
         return self.method
 
-    def getUrl(self):
-        return self.url
+    @property
+    def url(self):
+        return self._url
 
-    def setUrl(self, url):
+    @url.setter
+    def url(self, url):
         if not url:
             raise ValueError("invalid URL.")
-        else:
-            self.url = url
+        self._url = url
+
+    def get_url(self):  # Converted to PEP8
+        return self.url
+
+    def set_url(self, url):  # Converted to PEP8
+        if not url:
+            raise ValueError("invalid URL.")
+        self.url = url
         return self
 
-    def getHeader(self):
+    @property
+    def header(self):
+        return self._header
+
+    @header.setter
+    def header(self, header):
+        if header and isinstance(header, dict):
+            self._header = header
+            self.add_request_id_from_header(header)
+        else:
+            raise ValueError("invalid header for request")
+
+    def get_header(self):  # Converted to PEP8
         return self.header
 
-    def setHeader(self, header):
+    def set_header(self, header):  # Converted to PEP8
         if header and isinstance(header, dict):
             self.header = header
-            self.addRequestIdFromHeader(header)
+            self.add_request_id_from_header(header)
         else:
             raise ValueError("invalid header for request")
         return self
 
-    def addRequestIdFromHeader(self, header):
-        if (self.getRequestType() != RequestType.OAUTH and
-            self.getRequestType() != RequestType.USERINFO):
-            self.setRequestId(header['Request-Id'])
+    @property
+    def body(self):
+        return self._body
 
-    def getBody(self):
+    @body.setter
+    def body(self, body):
+        if self.method != RequestInterface.POST:
+            raise ValueError("Cannot set body for GET request")
+        self._body = body
+
+    def get_body(self):  # Converted to PEP8
         return self.body
 
-    def setBody(self, body):
-        if self.getMethod() != RequestInterface.POST:
+    def set_body(self, body):  # Converted to PEP8
+        if self.get_method() != RequestInterface.POST:
             raise ValueError("Cannot Set body for GET request")
         self.body = body
         return self
 
-    def getRequestType(self):
-        return self.requestType
+    @property
+    def request_type(self):
+        return self._request_type
 
-    def setRequestType(self, type):
-        self.requestType = type
+    @request_type.setter
+    def request_type(self, request_type):
+        self._request_type = request_type
 
-    def setRequestId(self, requestId):
-        self.requestId = requestId
+    def get_request_type(self):  # Converted to PEP8
+        return self.request_type
 
-    def getRequestId(self):
-        return self.requestId
+    def set_request_type(self, type):  # Converted to PEP8
+        self.request_type = type
+
+    @property
+    def request_id(self):
+        return self._request_id
+
+    @request_id.setter
+    def request_id(self, request_id):
+        self._request_id = request_id
+
+    def get_request_id(self):  # Converted to PEP8
+        return self.request_id
+
+    def set_request_id(self, request_id):  # Converted to PEP8
+        self.request_id = request_id
+
+    def add_request_id_from_header(self, header):  # Converted to PEP8
+        if (self.request_type != "OAUTH" and self.request_type != "USERINFO"):
+            self.request_id = header['Request-Id']
 

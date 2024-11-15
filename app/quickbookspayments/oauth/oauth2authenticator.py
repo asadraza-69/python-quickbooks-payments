@@ -3,12 +3,13 @@ import base64
 import random
 
 from app.quickbookspayments.httpclients.request.requestinterface import RequestInterface
-from src import RequestFactory
+from app.quickbookspayments.httpclients.request.requestfactory import RequestFactory
 from app.quickbookspayments.httpclients.request.requesttype import RequestType
-from .discoveryurls import DiscoveryURLs
-from .discoverysandboxurls import DiscoverySandboxURLs
-from .oauth1encrypter import OAuth1Encrypter
+from app.quickbookspayments.oauth.discoveryurls import DiscoveryURLs
+from app.quickbookspayments.oauth.discoverysandboxurls import DiscoverySandboxURLs
+from app.quickbookspayments.oauth.oauth1encrypter import OAuth1Encrypter
 class OAuth2Authenticator:
+    state = None
     def __init__(self, settings):
         self.set_keys_from_map(settings)
 
@@ -45,7 +46,7 @@ class OAuth2Authenticator:
         return f"{self.get_discovery_urls().get_authorization_endpoint_url()}?" + \
                self.generate_query_parameter_string_for_authorization_code_url()
 
-    def create_request_to_exchange(self, code):
+    def create_request_to_exchange(self, code) -> 'RequestFactory':
         request = RequestFactory.create_standard_intuit_request(RequestType.OAUTH)
         request.set_method(RequestInterface.POST) \
                .set_url(self.get_discovery_urls().get_token_endpoint_url()) \
